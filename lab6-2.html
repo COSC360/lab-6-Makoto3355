@@ -11,7 +11,8 @@
   <p id="time_two"></p>
 
   <!-- Add button and table here -->
-
+  <button id="btn">Get City Info</button>
+  <div id="city-info"></div>
   <script>
   //set interval timers to trigger the refresh.  Here the callback function will
   //be called when the timer fires
@@ -43,7 +44,21 @@
       results.fail(function(jqXHR) {console.log("Error: " + jqXHR.status);});
       results.always(function() {console.log("done");});
 
-
+      var header = $('<table id="tin"><tr><th>Name</th><th>ISO</th><th>Latitude</th><th>Longitude</th><th>Population</th><th>Elevation</th></tr></table>');
+      $(document).append(header);
+      $('#btn').click(function () {
+          var results = $.get("http://www.randyconnolly.com/funwebdev/services/travel/cities.php");
+          results.done(function(data) {
+                                $.each(data, function(i, city) {
+                                  header.append('<tr><td>'+ city.name + '</td><td>' +city.iso+ '</td><td>' + city.latitude + '</td><td>' + city.longitude + '</td><td>'+  city.population + '</td><td>'+ city.elevation + '</td></tr>');
+                                  $('#tin').show();
+                                });
+                              });
+          results.fail(function(jqXHR) {console.log("Error: " + jqXHR.status);});
+          results.always(function() {console.log("done");});
+    
+    
+      });
   }
   </script>
 
